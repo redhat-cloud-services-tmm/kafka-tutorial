@@ -1,0 +1,22 @@
+= Welcome to Kafka Tutorial
+:page-layout: home
+:!sectids:
+
+[.text-center.strong]
+== Kafka
+
+A Kafka tutorial to show you the basic concepts of Kafka and develop services that consume and produce from/to Kafka topic in Java.
+The tutorial uses the hosted Red Hat OpenShift Streams for Apache Kafka service. 
+
+[.tiles.browse]
+== Browse modules
+
+[.tile]
+.xref:01-setup.adoc[Setup]
+* xref:01-setup.adoc#prerequisite[Prerequisites]
+* xref:01-setup.adoc#downloadconfiguresources[Download & Configure Tutorial]
+* xref:01-setup.adoc#redhataccount[Create a Red Hat Account]
+* xref:01-setup.adoc#kafka[Provision a Kafka Instance]
+* xref:01-setup.adoc#serviceaccount[Create a Service Account]
+* xref:01-setup.adoc#serviceaccountpermissions[Set Permissions for the Service Account]
+* xref:01-setup.adoc#verifykafka[Verify the Kafka instance]

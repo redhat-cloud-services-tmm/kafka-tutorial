@@ -1,0 +1,8 @@
+* xref:01-setup.adoc[1. Setup]
+** xref:01-setup.adoc#prerequisite[Prerequisites]
+** xref:01-setup.adoc#downloadconfiguresources[Download & Configure Tutorial]
+** xref:01-setup.adoc#redhataccount[Create a Red Hat Account]
+** xref:01-setup.adoc#kafka[Provision a Kafka Instance]
+** xref:01-setup.adoc#serviceaccount[Create a Service Account]
+** xref:01-setup.adoc#serviceaccountpermissions[Set Permissions for the Service Account]
+** xref:01-setup.adoc#verifykafka[Verify the Kafka instance]
