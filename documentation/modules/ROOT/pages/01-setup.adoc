@@ -1,36 +1,63 @@
+:kubernetes-version: v1.18.6
+:minikube-version: v1.12.1
+:maven-version: 3.6.3
+:java-version: 11
+
 = Setup
 include::_attributes.adoc[]
 
 [#prerequisite]
 == Prerequisite CLI tools
 
-include::https://raw.githubusercontent.com/redhat-developer-demos/rhd-tutorial-common/master/prerequisites-kubernetes.adoc[]
-|`Kafkacat`
-|https://github.com/edenhill/kafkacat[Download] or `brew install kafkacat`
-|https://github.com/edenhill/kafkacat[Download]
-|https://github.com/edenhill/kafkacat[Download]
+The following CLI tools are required for running the exercises in this tutorial. 
+Please have them installed and configured before you get started with any of the tutorial chapters.
 
-|`Kstreamscat`
-|https://github.com/lordofthejars/kstreamscat/releases/download/v0.0.1/kstreamscat.jar[Download]
-|https://github.com/lordofthejars/kstreamscat/releases/download/v0.0.1/kstreamscat.jar[Download]
-|https://github.com/lordofthejars/kstreamscat/releases/download/v0.0.1/kstreamscat.jar[Download]
+[cols="4*^,4*.",options="header,+attributes"]
+|===
+|**Tool**|**macOS**|**Fedora**|**windows**
 
-|`Java 11`
-|https://adoptopenjdk.net/[Download]
-|https://adoptopenjdk.net/[Download]
-|https://adoptopenjdk.net/[Download]
+| `Git`
+| https://git-scm.com/download/mac[Download]
+| https://git-scm.com/download/linux[Download]
+| https://git-scm.com/download/win[Download]
 
-IMPORTANT: An alternative for running `kcat` is to use the following Docker command and image  `docker run -it --network=host edenhill/kcat:1.7.0 kcat`
+| `Docker`
+| https://docs.docker.com/docker-for-mac/install[Docker for Mac]
+| `dnf install docker`
+| https://docs.docker.com/docker-for-windows/install[Docker for Windows]
+
+|`Kcat`
+|https://github.com/edenhill/kcat[Download] or `brew install kcat`
+|https://github.com/edenhill/kcat[Download]
+|https://github.com/edenhill/kcat[Download]
+
 |===
 
-include::https://raw.githubusercontent.com/redhat-developer-demos/rhd-tutorial-common/master/optional-requisites.adoc[]
-|===
+IMPORTANT: An alternative for running `kcat` is to use the following Docker command and image  `docker run -it edenhill/kcat:1.7.0 kcat`
 
 [#downloadconfiguresources]
 == Download & Configure Tutorial Sources
 
 :folder: kafka-tutorial
-include::https://raw.githubusercontent.com/redhat-developer-demos/rhd-tutorial-common/master/download-sources.adoc[]
+Before we start setting up the environment, let’s clone the tutorial sources and set the `TUTORIAL_HOME` environment variable to point to the root directory of the tutorial:
+
+[.console-input]
+[source,bash,subs="attributes+,+macros"]
+----
+git clone {tutorial-url} {folder}
+----
+
+[.console-input]
+[source,bash,subs="attributes+,+macros"]
+----
+export TUTORIAL_HOME="$(pwd)/{folder}"
+----
+
+[.console-input]
+[source,bash,subs="attributes+,+macros"]
+----
+cd $TUTORIAL_HOME
+----
 
 [#redhataccount]
 == Create a Red Hat account
