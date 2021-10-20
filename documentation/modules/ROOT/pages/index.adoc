@@ -20,3 +20,11 @@ The tutorial uses the hosted Red Hat OpenShift Streams for Apache Kafka service.
 * xref:01-setup.adoc#serviceaccount[Create a Service Account]
 * xref:01-setup.adoc#serviceaccountpermissions[Set Permissions for the Service Account]
 * xref:01-setup.adoc#verifykafka[Verify the Kafka instance]
+
+[.tile]
+.xref:02-topics-partitions.adoc[Topics & Partitions]
+* xref:02-topics-partitions.adoc#topics[Topics]
+* xref:02-topics-partitions.adoc#partitions[Partitions]
+* xref:02-topics-partitions.adoc#messages[Messages]
+* xref:02-topics-partitions.adoc#topic-creation[Create a Topic]
+* xref:02-topics-partitions.adoc#topic-info[Topic Information]

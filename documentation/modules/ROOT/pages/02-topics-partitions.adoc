@@ -1,0 +1,129 @@
+= Topics and Partitions
+include::_attributes.adoc[]
+
+Apache Kafka is a distributed robust publish/subscribe system.
+It acts as a message queue but it offers two major advantages over traditional pub/sub systems.
+
+. Storing records with Fault Tolerance.
+. Processing streams (data-streams) as they occur in real-time instead of in a batch.
+
+image::cbp.png[]
+
+Notice in the next figure, the difference in how the entities are stored in a Kafka topic VS how they are stored in an RDBMS.
+Events are always stored as they are applied in the log and they are never overridden, meanwhile, in RDBMS, you are storing a snapshot of an entity, when you update an entity you are modifying the original record.
+ 
+image::dbvsevent.png[]
+
+Other differences are:
+
+* Real Time vs Batch processing.
+* Distributed/Fault Tolerant vs "None" Distributed by construction.
+
+[#topics]
+== What are Topics?
+
+A topic is an ordered collection of events that are persisted to disk, replicated for fault-tolerance and they have a duration, as an event can be available for just some minutes or forever.
+
+image::cbtp.png[]
+
+[#partitions]
+== What are Partitions?
+
+A topic might be divided into several partitions to improve the performance in cases of heavy load.
+
+The partitions of a topic are distributed across all the Apache Kafka brokers to maximize the parallelism when working with topics.
+
+The sum of all events of all the partitions is what conforms a topic.
+
+image::pbtpc.png[]
+
+Each partition can be configured to be replicated across different Kafka brokers.
+
+image::bp.png[]
+
+Each partition can be replicated and one of the partitions is designed the leader.
+All events are produced and consumed from the leader, and the other replicas just stay in sync with the leader. 
+If the leader becomes unavailable, one of the synced replicas becomes the new leader.
+
+[#messages]
+== What are Messages?
+
+A message is a Key/Value pair that is stored inside a topic.
+This message is persisted and durable during the configured lifespan.
+
+A message is a typical small chunk of data with two parts: the key (optional) to identify the message and which is used by default to decide in which partition the message is stored, and the value which is the content of the message which can be in any format.
+
+Moreover, each message contains a metadata timestamp attribute that is either set by the producer at creation time or by the broker on insertion time.
+
+IMPORTANT: Although you can configure Apache Kafka to work with large messages, the default max size is `1 MB`, being a few KB the recommended maximum size of a message.
+
+image::pkp.png[]
+
+[#topic-creation]
+== Create a Topic
+
+On OpenShift Streams for Apache Kafka topics are created through the https://console.redhat.com[console.redhat.com] UI.
+
+Go to https://console.redhat.com[console.redhat.com] and log in with your Red Hat account.
+
+On the https://console.redhat.com[console.redhat.com] landing page, select *Application Services* from the menu on the left.
+
+On the Application Services landing page, select *Streams for Apache Kafka → Kafka Instances*.
+
+On the *Kafka Instances* page, click the name of the Kafka instance you created before.
+
+Select the *Topics* tab, click the *Create Topic* button, and follow the guided steps to define the topic details.
+
+Use `songs` as topic name.
+
+Keep the number of partitions to 1.
+
+Keep the default message retention values.
+
+Click *Finish* to create the topic.
+
+Your topic is listed in the *Topics* tab.
+
+image::rhosak-topic.png[]
+
+NOTE: The replication factor for topics on an OpenShift Streams for Apache Kafka is set to 3. This corresponds to the number of brokers in the Kafka instance.
+
+[#topic-info]
+== Get Topic information
+
+You can get topic information by using `kcat`:
+
+[tabs]
+====
+kcat::
++
+--
+[.console-input]
+[source, bash-shell]
+----
+kcat -b $BOOTSTRAP_SERVER -X security.protocol=SASL_SSL -X sasl.mechanisms=PLAIN -X sasl.username="$CLIENT_ID" -X sasl.password="$CLIENT_SECRET" -L
+----
+--
+kcat in Docker::
++
+--
+[.console-input]
+[source, bash-shell]
+----
+docker run --rm -it edenhill/kcat:1.7.0 -b $BOOTSTRAP_SERVER -X security.protocol=SASL_SSL -X sasl.mechanisms=PLAIN -X sasl.username="$CLIENT_ID" -X sasl.password="$CLIENT_SECRET" -L
+----
+--
+====
+
+[.console-output]
+[source, bash-shell]
+----
+Metadata for all topics (from broker -1: sasl_ssl://bernard-tm-c-nedjn-g--q-mncdc-a.bf2.kafka.rhcloud.com:443/bootstrap):
+ 3 brokers:
+  broker 0 at broker-0-bernard-tm-c-nedjn-g--q-mncdc-a.bf2.kafka.rhcloud.com:443
+  broker 2 at broker-2-bernard-tm-c-nedjn-g--q-mncdc-a.bf2.kafka.rhcloud.com:443
+  broker 1 at broker-1-bernard-tm-c-nedjn-g--q-mncdc-a.bf2.kafka.rhcloud.com:443 (controller)
+ 1 topics:
+  topic "songs" with 1 partitions:
+    partition 0, leader 0, replicas: 0,2,1, isrs: 0,2,1
+----
