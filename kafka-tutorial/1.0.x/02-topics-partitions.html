@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Topics and Partitions :: Kafka Tutorial</title>
+    <link rel="canonical" href="https://redhat-cloud-services-tmm.github.io/kafka-tutorial/kafka-tutorial/1.0.x/02-topics-partitions.html">
+    <link rel="prev" href="01-setup.html">
+    <meta name="generator" content="Antora 2.3.3">
+    <link rel="stylesheet" href="../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img src="../../_/img/NewRHDFullLogo_4-color_white-wordmark.png" height="40px" alt="Red Hat Developer Program"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="https://redhat-cloud-services-tmm.github.io/kafka-tutorial">Kafka Tutorial</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="kafka-tutorial" data-version="1.0.x">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html"></a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="01-setup.html">1. Setup</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-setup.html#prerequisite">Prerequisites</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-setup.html#downloadconfiguresources">Download &amp; Configure Tutorial</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-setup.html#redhataccount">Create a Red Hat Account</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-setup.html#kafka">Provision a Kafka Instance</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-setup.html#serviceaccount">Create a Service Account</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-setup.html#serviceaccountpermissions">Set Permissions for the Service Account</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-setup.html#verifykafka">Verify the Kafka instance</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="02-topics-partitions.html">2. Topics &amp; Partitions</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#topics">Topics</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#partitions">Partitions</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#messages">Messages</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#topic-creation">Create a Topic</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#topic-info">Topic Information</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">Kafka Tutorial</a></li>
+    <li><a href="02-topics-partitions.html">2. Topics &amp; Partitions</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">Topics and Partitions</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Apache Kafka is a distributed robust publish/subscribe system.
+It acts as a message queue but it offers two major advantages over traditional pub/sub systems.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Storing records with Fault Tolerance.</p>
+</li>
+<li>
+<p>Processing streams (data-streams) as they occur in real-time instead of in a batch.</p>
+</li>
+</ol>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/cbp.png" alt="cbp">
+</div>
+</div>
+<div class="paragraph">
+<p>Notice in the next figure, the difference in how the entities are stored in a Kafka topic VS how they are stored in an RDBMS.
+Events are always stored as they are applied in the log and they are never overridden, meanwhile, in RDBMS, you are storing a snapshot of an entity, when you update an entity you are modifying the original record.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/dbvsevent.png" alt="dbvsevent">
+</div>
+</div>
+<div class="paragraph">
+<p>Other differences are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Real Time vs Batch processing.</p>
+</li>
+<li>
+<p>Distributed/Fault Tolerant vs "None" Distributed by construction.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="topics"><a class="anchor" href="#topics"></a>What are Topics?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A topic is an ordered collection of events that are persisted to disk, replicated for fault-tolerance and they have a duration, as an event can be available for just some minutes or forever.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/cbtp.png" alt="cbtp">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="partitions"><a class="anchor" href="#partitions"></a>What are Partitions?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A topic might be divided into several partitions to improve the performance in cases of heavy load.</p>
+</div>
+<div class="paragraph">
+<p>The partitions of a topic are distributed across all the Apache Kafka brokers to maximize the parallelism when working with topics.</p>
+</div>
+<div class="paragraph">
+<p>The sum of all events of all the partitions is what conforms a topic.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/pbtpc.png" alt="pbtpc">
+</div>
+</div>
+<div class="paragraph">
+<p>Each partition can be configured to be replicated across different Kafka brokers.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/bp.png" alt="bp">
+</div>
+</div>
+<div class="paragraph">
+<p>Each partition can be replicated and one of the partitions is designed the leader.
+All events are produced and consumed from the leader, and the other replicas just stay in sync with the leader.
+If the leader becomes unavailable, one of the synced replicas becomes the new leader.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="messages"><a class="anchor" href="#messages"></a>What are Messages?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A message is a Key/Value pair that is stored inside a topic.
+This message is persisted and durable during the configured lifespan.</p>
+</div>
+<div class="paragraph">
+<p>A message is a typical small chunk of data with two parts: the key (optional) to identify the message and which is used by default to decide in which partition the message is stored, and the value which is the content of the message which can be in any format.</p>
+</div>
+<div class="paragraph">
+<p>Moreover, each message contains a metadata timestamp attribute that is either set by the producer at creation time or by the broker on insertion time.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Although you can configure Apache Kafka to work with large messages, the default max size is <code>1 MB</code>, being a few KB the recommended maximum size of a message.
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/pkp.png" alt="pkp">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="topic-creation"><a class="anchor" href="#topic-creation"></a>Create a Topic</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>On OpenShift Streams for Apache Kafka topics are created through the <a href="https://console.redhat.com">console.redhat.com</a> UI.</p>
+</div>
+<div class="paragraph">
+<p>Go to <a href="https://console.redhat.com">console.redhat.com</a> and log in with your Red Hat account.</p>
+</div>
+<div class="paragraph">
+<p>On the <a href="https://console.redhat.com">console.redhat.com</a> landing page, select <strong>Application Services</strong> from the menu on the left.</p>
+</div>
+<div class="paragraph">
+<p>On the Application Services landing page, select <strong>Streams for Apache Kafka → Kafka Instances</strong>.</p>
+</div>
+<div class="paragraph">
+<p>On the <strong>Kafka Instances</strong> page, click the name of the Kafka instance you created before.</p>
+</div>
+<div class="paragraph">
+<p>Select the <strong>Topics</strong> tab, click the <strong>Create Topic</strong> button, and follow the guided steps to define the topic details.</p>
+</div>
+<div class="paragraph">
+<p>Use <code>songs</code> as topic name.</p>
+</div>
+<div class="paragraph">
+<p>Keep the number of partitions to 1.</p>
+</div>
+<div class="paragraph">
+<p>Keep the default message retention values.</p>
+</div>
+<div class="paragraph">
+<p>Click <strong>Finish</strong> to create the topic.</p>
+</div>
+<div class="paragraph">
+<p>Your topic is listed in the <strong>Topics</strong> tab.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/rhosak-topic.png" alt="rhosak topic">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The replication factor for topics on an OpenShift Streams for Apache Kafka is set to 3. This corresponds to the number of brokers in the Kafka instance.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="topic-info"><a class="anchor" href="#topic-info"></a>Get Topic information</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can get topic information by using <code>kcat</code>:</p>
+</div>
+<div class="tabset is-loading">
+<div class="ulist tabs">
+<ul>
+<li>
+<p><a id="tabset1_kcat"></a>kcat</p>
+</li>
+<li>
+<p><a id="tabset1_kcat-in-docker"></a>kcat in Docker</p>
+</li>
+</ul>
+</div>
+<div class="content">
+<div class="tab-pane" aria-labelledby="tabset1_kcat">
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash-shell hljs" data-lang="bash-shell">kcat -b $BOOTSTRAP_SERVER -X security.protocol=SASL_SSL -X sasl.mechanisms=PLAIN -X sasl.username="$CLIENT_ID" -X sasl.password="$CLIENT_SECRET" -L</code></pre>
+</div>
+</div>
+</div>
+<div class="tab-pane" aria-labelledby="tabset1_kcat-in-docker">
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash-shell hljs" data-lang="bash-shell">docker run --rm -it edenhill/kcat:1.7.0 -b $BOOTSTRAP_SERVER -X security.protocol=SASL_SSL -X sasl.mechanisms=PLAIN -X sasl.username="$CLIENT_ID" -X sasl.password="$CLIENT_SECRET" -L</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="listingblock console-output">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash-shell hljs" data-lang="bash-shell">Metadata for all topics (from broker -1: sasl_ssl://bernard-tm-c-nedjn-g--q-mncdc-a.bf2.kafka.rhcloud.com:443/bootstrap):
+ 3 brokers:
+  broker 0 at broker-0-bernard-tm-c-nedjn-g--q-mncdc-a.bf2.kafka.rhcloud.com:443
+  broker 2 at broker-2-bernard-tm-c-nedjn-g--q-mncdc-a.bf2.kafka.rhcloud.com:443
+  broker 1 at broker-1-bernard-tm-c-nedjn-g--q-mncdc-a.bf2.kafka.rhcloud.com:443 (controller)
+ 1 topics:
+  topic "songs" with 1 partitions:
+    partition 0, leader 0, replicas: 0,2,1, isrs: 0,2,1</code></pre>
+</div>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="01-setup.html">1. Setup</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <a class="rhd-logo" href="https://developers.redhat.com" target="_blank"></div>
+</footer>
+<script src="../../_/js/vendor/clipboard.js"></script>
+<script src="../../_/js/site.js"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
