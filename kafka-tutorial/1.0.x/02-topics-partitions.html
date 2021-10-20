@@ -6,6 +6,7 @@
     <title>Topics and Partitions :: Kafka Tutorial</title>
     <link rel="canonical" href="https://redhat-cloud-services-tmm.github.io/kafka-tutorial/kafka-tutorial/1.0.x/02-topics-partitions.html">
     <link rel="prev" href="01-setup.html">
+    <link rel="next" href="03-consumers-producers.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../../_/css/site.css">
   </head>
@@ -82,6 +83,30 @@
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="#topic-info">Topic Information</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="03-consumers-producers.html">3. Consumer &amp; Producers</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03-consumers-producers.html#producer">Producer</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03-consumers-producers.html#consumer">Consumer</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03-consumers-producers.html#consume-kafkacat">Kafkacat Consumer</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03-consumers-producers.html#produce-kafkacat">Kafkacat Producer</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03-consumers-producers.html#playingwithoffsets">Kafkacat Offsets</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03-consumers-producers.html#changingretention">Changing Retention</a>
   </li>
 </ul>
   </li>
@@ -236,7 +261,7 @@ Although you can configure Apache Kafka to work with large messages, the default
 <p>On OpenShift Streams for Apache Kafka topics are created through the <a href="https://console.redhat.com">console.redhat.com</a> UI.</p>
 </div>
 <div class="paragraph">
-<p>Go to <a href="https://console.redhat.com">console.redhat.com</a> and log in with your Red Hat account.</p>
+<p>If the browser window pointing to <a href="https://console.redhat.com">console.redhat.com</a> is no longer open, go to <a href="https://console.redhat.com">console.redhat.com</a> and log in with your Red Hat account.</p>
 </div>
 <div class="paragraph">
 <p>On the <a href="https://console.redhat.com">console.redhat.com</a> landing page, select <strong>Application Services</strong> from the menu on the left.</p>
@@ -334,6 +359,7 @@ The replication factor for topics on an OpenShift Streams for Apache Kafka is se
 </div>
 <nav class="pagination">
   <span class="prev"><a href="01-setup.html">1. Setup</a></span>
+  <span class="next"><a href="03-consumers-producers.html">3. Consumer &amp; Producers</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
