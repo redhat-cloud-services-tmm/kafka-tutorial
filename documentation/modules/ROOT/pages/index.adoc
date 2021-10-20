@@ -28,3 +28,12 @@ The tutorial uses the hosted Red Hat OpenShift Streams for Apache Kafka service.
 * xref:02-topics-partitions.adoc#messages[Messages]
 * xref:02-topics-partitions.adoc#topic-creation[Create a Topic]
 * xref:02-topics-partitions.adoc#topic-info[Topic Information]
+
+[.tile]
+.xref:03-consumers-producers.adoc[Consumer & Producers]
+* xref:03-consumers-producers.adoc#producer[Producer]
+* xref:03-consumers-producers.adoc#consumer[Consumer]
+* xref:03-consumers-producers.adoc#consume-kafkacat[Kafkacat Consumer]
+* xref:03-consumers-producers.adoc#produce-kafkacat[Kafkacat Producer]
+* xref:03-consumers-producers.adoc#playingwithoffsets[Kafkacat Offsets]
+* xref:03-consumers-producers.adoc#changingretention[Changing Retention]

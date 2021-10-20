@@ -14,3 +14,10 @@
 ** xref:02-topics-partitions.adoc#topic-creation[Create a Topic]
 ** xref:02-topics-partitions.adoc#topic-info[Topic Information]
 
+* xref:03-consumers-producers.adoc[3. Consumer & Producers]
+** xref:03-consumers-producers.adoc#producer[Producer]
+** xref:03-consumers-producers.adoc#consumer[Consumer]
+** xref:03-consumers-producers.adoc#consume-kafkacat[Kafkacat Consumer]
+** xref:03-consumers-producers.adoc#produce-kafkacat[Kafkacat Producer]
+** xref:03-consumers-producers.adoc#playingwithoffsets[Kafkacat Offsets]
+** xref:03-consumers-producers.adoc#changingretention[Changing Retention]

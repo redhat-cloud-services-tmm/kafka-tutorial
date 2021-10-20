@@ -64,7 +64,7 @@ image::pkp.png[]
 
 On OpenShift Streams for Apache Kafka topics are created through the https://console.redhat.com[console.redhat.com] UI.
 
-Go to https://console.redhat.com[console.redhat.com] and log in with your Red Hat account.
+If the browser window pointing to https://console.redhat.com[console.redhat.com] is no longer open, go to https://console.redhat.com[console.redhat.com] and log in with your Red Hat account.
 
 On the https://console.redhat.com[console.redhat.com] landing page, select *Application Services* from the menu on the left.
 
