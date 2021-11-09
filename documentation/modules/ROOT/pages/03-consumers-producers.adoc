@@ -45,24 +45,12 @@ Before digging into how to produce and consume data from Java, let's see how to 
 [#consume-kafkacat]
 === Consuming messages with Kafkacat
 
-Open a new terminal, _terminal 1_, and export environment variables for the Kafka instance bootstrap URL and the service account ID and Secret. Replace the placeholders with the values you copied before.
+Open a new terminal, _terminal 1_, and source the environment file to set the environment variables for the Kafka instance bootstrap URL, and the service account ID and secret.
 
 [.console-input]
 [source, bash-shell]
 ----
-export $BOOTSTRAP_SERVER=<kafka bootstrap url>
-----
-
-[.console-input]
-[source, bash-shell]
-----
-export $CLIENT_ID=<service account client id>
-----
-
-[.console-input]
-[source, bash-shell]
-----
-export $CLIENT_SECRET=<service account client secret>
+source $TUTORIAL_HOME/apps/env
 ----
 
 Run the following command:
@@ -98,27 +86,15 @@ docker run -it --rm edenhill/kcat:1.7.0 kcat -b $BOOTSTRAP_SERVER -X security.pr
 [#produce-kafkacat]
 === Producing messages with Kafkacat
 
-Open a new terminal, _terminal 2_, and export environment variables for the Kafka instance bootstrap URL and the service account ID and Secret. Replace the placeholders with the values you copied before.
+Open a new terminal, _terminal 2_, and source the environment file to set the environment variables for the Kafka instance bootstrap URL, and the service account ID and secret.
 
 [.console-input]
 [source, bash-shell]
 ----
-export $BOOTSTRAP_SERVER=<kafka bootstrap url>
+source $TUTORIAL_HOME/apps/env
 ----
 
-[.console-input]
-[source, bash-shell]
-----
-export $CLIENT_ID=<service account client id>
-----
-
-[.console-input]
-[source, bash-shell]
-----
-export $CLIENT_SECRET=<service account client secret>
-----
-
-Create a new file with the next content:
+Create a new file with the following content:
 
 [.console-input]
 [source, json]

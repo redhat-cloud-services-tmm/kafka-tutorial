@@ -153,29 +153,30 @@ After you add these permissions for the service account, click *Save* to finish.
 [#verifykafka]
 == Verify the Kafka instance
 
+Using your preferred text editor, open the file at `$TUTORIAL_HOME/apps/env`. Replace the placeholders with the values you copied before. Save the file.
+
+[.console-input]
+[source,text]
+----
+BOOTSTRAP_SERVER=<Kafka bootstrap url>
+
+CLIENT_ID=<service account client id>
+
+CLIENT_SECRET=<service account client secret>
+
+----
+
 Open a new terminal to run Kafka commands.
 
-Export environment variables for the Kafka instance bootstrap URL and the service account ID and Secret. Replace the placeholders with the values you copied before.
+Source the environment file to set the environment variables for the Kafka instance bootstrap URL, and the service account ID and secret.
 
 [.console-input]
 [source, bash-shell]
 ----
-export $BOOTSTRAP_SERVER=<kafka bootstrap url>
+source $TUTORIAL_HOME/apps/env
 ----
 
-[.console-input]
-[source, bash-shell]
-----
-export $CLIENT_ID=<service account client id>
-----
-
-[.console-input]
-[source, bash-shell]
-----
-export $CLIENT_SECRET=<service account client secret>
-----
-
-Verify that the Kafka cluster is correctly started and configured by running the following command:
+Verify that the Kafka instance is correctly started and configured by running the following command:
 
 [tabs]
 ====

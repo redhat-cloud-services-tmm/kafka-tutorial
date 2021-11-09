@@ -1,0 +1,5 @@
+BOOTSTRAP_SERVER=<kafka bootstrap url>
+
+CLIENT_ID=<service account client id>
+
+CLIENT_SECRET=<service account client secret>
