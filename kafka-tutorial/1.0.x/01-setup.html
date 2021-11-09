@@ -364,28 +364,30 @@ An alternative for running <code>kcat</code> is to use the following Docker comm
 <h2 id="verifykafka"><a class="anchor" href="#verifykafka"></a>Verify the Kafka instance</h2>
 <div class="sectionbody">
 <div class="paragraph">
+<p>Using your preferred text editor, open the file at <code>$TUTORIAL_HOME/apps/env</code>. Replace the placeholders with the values you copied before. Save the file.</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">BOOTSTRAP_SERVER=&lt;Kafka bootstrap url&gt;
+
+CLIENT_ID=&lt;service account client id&gt;
+
+CLIENT_SECRET=&lt;service account client secret&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
 <p>Open a new terminal to run Kafka commands.</p>
 </div>
 <div class="paragraph">
-<p>Export environment variables for the Kafka instance bootstrap URL and the service account ID and Secret. Replace the placeholders with the values you copied before.</p>
+<p>Source the environment file to set the environment variables for the Kafka instance bootstrap URL, and the service account ID and secret.</p>
 </div>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash-shell hljs" data-lang="bash-shell">export $BOOTSTRAP_SERVER=&lt;kafka bootstrap url&gt;</code></pre>
-</div>
-</div>
-<div class="listingblock console-input">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash-shell hljs" data-lang="bash-shell">export $CLIENT_ID=&lt;service account client id&gt;</code></pre>
-</div>
-</div>
-<div class="listingblock console-input">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash-shell hljs" data-lang="bash-shell">export $CLIENT_SECRET=&lt;service account client secret&gt;</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash-shell hljs" data-lang="bash-shell">source $TUTORIAL_HOME/apps/env</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Verify that the Kafka cluster is correctly started and configured by running the following command:</p>
+<p>Verify that the Kafka instance is correctly started and configured by running the following command:</p>
 </div>
 <div class="tabset is-loading">
 <div class="ulist tabs">
