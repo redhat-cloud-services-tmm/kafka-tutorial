@@ -147,7 +147,7 @@ kcat in Docker::
 [.console-input]
 [source, bash-shell]
 ----
-docker run -it --rm edenhill/kcat:1.7.0 kcat -b $BOOTSTRAP_SERVER -X security.protocol=SASL_SSL -X sasl.mechanisms=PLAIN -X sasl.username="$CLIENT_ID" -X sasl.password="$CLIENT_SECRET" -t songs -P -l -K: initial_songs
+docker run -it --mount type=bind,source="$(pwd)"/initial_songs,destination=/tmp/initial_songs --rm edenhill/kcat:1.7.0 kcat -b $BOOTSTRAP_SERVER -X security.protocol=SASL_SSL -X sasl.mechanisms=PLAIN -X sasl.username="$CLIENT_ID" -X sasl.password="$CLIENT_SECRET" -t songs -P -l -K: /tmp/initial_songs
 ----
 --
 ====
@@ -183,7 +183,7 @@ kcat::
 [.console-input]
 [source, bash-shell]
 ----
-kcat -b $BOOTSTRAP_SERVER -X security.protocol=SASL_SSL -X sasl.mechanisms=PLAIN -X sasl.username="$CLIENT_ID" -X sasl.password="$CLIENT_SECRET" -t songs -P -l -K: initial_songs
+kcat -b $BOOTSTRAP_SERVER -X security.protocol=SASL_SSL -X sasl.mechanisms=PLAIN -X sasl.username="$CLIENT_ID" -X sasl.password="$CLIENT_SECRET" -t songs -P -l -K:
 ----
 --
 kcat in Docker::
@@ -192,7 +192,7 @@ kcat in Docker::
 [.console-input]
 [source, bash-shell]
 ----
-docker run -it --rm edenhill/kcat:1.7.0 kcat -b $BOOTSTRAP_SERVER -X security.protocol=SASL_SSL -X sasl.mechanisms=PLAIN -X sasl.username="$CLIENT_ID" -X sasl.password="$CLIENT_SECRET" -t songs -P -l -K: initial_songs
+docker run -it --rm edenhill/kcat:1.7.0 kcat -b $BOOTSTRAP_SERVER -X security.protocol=SASL_SSL -X sasl.mechanisms=PLAIN -X sasl.username="$CLIENT_ID" -X sasl.password="$CLIENT_SECRET" -t songs -P -l -K:
 ----
 --
 ====
@@ -286,7 +286,7 @@ kcat in Docker::
 [.console-input]
 [source, bash-shell]
 ----
-docker run -it --rm edenhill/kcat:1.7.0 kcat -b $BOOTSTRAP_SERVER -X security.protocol=SASL_SSL -X sasl.mechanisms=PLAIN -X sasl.username="$CLIENT_ID" -X sasl.password="$CLIENT_SECRET" -t songs -P -l -K: initial_songs
+docker run -it --rm --mount type=bind,source="$(pwd)"/initial_songs,destination=/tmp/initial_songs edenhill/kcat:1.7.0 kcat -b $BOOTSTRAP_SERVER -X security.protocol=SASL_SSL -X sasl.mechanisms=PLAIN -X sasl.username="$CLIENT_ID" -X sasl.password="$CLIENT_SECRET" -t songs -P -l -K: /tmp/initial_songs
 ----
 --
 ====
