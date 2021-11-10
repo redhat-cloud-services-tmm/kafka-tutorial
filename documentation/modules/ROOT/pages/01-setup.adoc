@@ -31,6 +31,11 @@ Please have them installed and configured before you get started with any of the
 |https://github.com/edenhill/kcat[Download]
 |https://github.com/edenhill/kcat[Download]
 
+| https://httpie.org/[httpie]
+| `brew install httpie`
+| `dnf install httpie`
+| https://httpie.org/doc#windows-etc
+
 |===
 
 IMPORTANT: An alternative for running `kcat` is to use the following Docker command and image  `docker run -it edenhill/kcat:1.7.0 kcat`
