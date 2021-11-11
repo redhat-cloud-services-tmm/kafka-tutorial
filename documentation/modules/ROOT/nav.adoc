@@ -21,3 +21,11 @@
 ** xref:03-consumers-producers.adoc#produce-kafkacat[Kafkacat Producer]
 ** xref:03-consumers-producers.adoc#playingwithoffsets[Kafkacat Offsets]
 ** xref:03-consumers-producers.adoc#changingretention[Changing Retention]
+
+* xref:04-java-consumer-producer.adoc[4. Developing Consumers and Producers in Java]
+** xref:04-java-consumer-producer.adoc#topic-creation[Create a Topic]
+** xref:04-java-consumer-producer.adoc#producer-java[Producing messages with Java]
+*** xref:04-java-consumer-producer.adoc#deploying-producer[Deploying Producer]
+** xref:04-java-consumer-producer.adoc#consumer-java[Consuming messages with Java]
+*** xref:04-java-consumer-producer.adoc#deploying-consumer[Deploying Consumer]
+** xref:04-java-consumer-producer.adoc#produce-consume-songs[Produce and Consume Songs]

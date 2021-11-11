@@ -1,0 +1,230 @@
+= Developing Consumers and Producers in Java
+include::_attributes.adoc[]
+
+In this lab, we are going to develop an example where there is one service that is producing song descriptions to the `songs-catalog` topic.
+
+Then there is another service that consumes these song descriptions from the `songs-catalog` topics.
+Notice that in real life this consumer would take the songs and process them (i.e adding them in a graph database like Neo4J, or an ElasticSearch for searching capabilities), but for the sake of simplicity, in this case, the service is printing them in the console.
+
+You need to open 4 terminal windows to run this example, 2 terminals for running the services, and 2 terminals for sending requests.
+
+image::terminals-song.png[]
+
+[#topic-creation]
+== Create a Topic
+
+Refer to the xref:02-topics-partitions.adoc#topic-creation[Create a Topic] section to create a new topic on your OpenShift Streams for Apache Kafka instance.
+
+Use `songs-catalog` as topic name.
+
+Keep the number of partitions to 1.
+
+Keep the default message retention values.
+
+[#producer-java]
+== Producing messages with Java
+
+The producer code is at {github-repo}/{apps-folder}/song-app/quarkus/song-app[Song App, window=_blank].
+
+[#deploying-producer]
+=== Deploying Producer
+
+In this case, the Quarkus service to produce songs is deployed.
+You've got two options, using Docker or building the service yourself.
+In terminal 1, run one of these two options:
+
+[tabs]
+====
+Building & Run::
++
+--
+[.console-input]
+[source, bash-shell,subs="+macros,+attributes"]
+----
+source $TUTORIAL_HOME/apps/env
+cd $TUTORIAL_HOME/apps/song-app/quarkus/song-app
+./mvnw clean package -DskipTests
+----
+
+[.console-input]
+[source, bash-shell,subs="+macros,+attributes"]
+----
+docker build -t quay.io/cloudservicestmm/kafka-tutorial-song-app:quarkus -f src/main/docker/Dockerfile.jvm .
+----
+
+[.console-input]
+[source, bash-shell,subs="+macros,+attributes"]
+----
+docker run --rm -ti -p 8080:8080 -e BOOTSTRAP_SERVER=$BOOTSTRAP_SERVER -e CLIENT_ID=$CLIENT_ID -e CLIENT_SECRET=$CLIENT_SECRET quay.io/cloudservicestmm/kafka-tutorial-song-app:quarkus
+----
+
+[.console-output]
+[source, bash-shell,subs="+macros,+attributes"]
+----
+_  ____  __  _____   ___  __ ____  ______
+ --/ __ \/ / / / _ | / _ \/ //_/ / / / __/
+ -/ /_/ / /_/ / __ |/ , _/ ,< / /_/ /\ \
+--\___\_\____/_/ |_/_/|_/_/|_|\____/___/
+2021-11-10 16:37:37,618 INFO  [org.apa.kaf.com.sec.aut.AbstractLogin] (main) Successfully logged in.
+2021-11-10 16:37:37,780 INFO  [io.sma.rea.mes.kafka] (main) SRMSG18258: Kafka producer kafka-producer-songs, connected to Kafka brokers 'bernard-c---pv-dartaq-c---ba.bf2.kafka.rhcloud.com:443', is configured to write records to 'songs-catalog'
+2021-11-10 16:37:37,971 INFO  [io.quarkus] (main) song-app 1.0.0-SNAPSHOT on JVM (powered by Quarkus 2.4.1.Final) started in 1.522s. Listening on: http://0.0.0.0:8080
+2021-11-10 16:37:37,971 INFO  [io.quarkus] (main) Profile prod activated.
+2021-11-10 16:37:37,972 INFO  [io.quarkus] (main) Installed features: [cdi, kafka-client, kubernetes, resteasy, resteasy-jsonb, smallrye-context-propagation, smallrye-health, smallrye-reactive-messaging, smallrye-reactive-messaging-kafka, vertx]
+----
+--
+Docker::
++
+--
+[.console-input]
+[source, bash-shell,subs="+macros,+attributes"]
+----
+source $TUTORIAL_HOME/apps/env
+docker run --rm -ti -p 8080:8080 -e BOOTSTRAP_SERVER=$BOOTSTRAP_SERVER -e CLIENT_ID=$CLIENT_ID -e CLIENT_SECRET=$CLIENT_SECRET quay.io/cloudservicestmm/kafka-tutorial-song-app:quarkus
+----
+
+[.console-output]
+[source, bash-shell,subs="+macros,+attributes"]
+----
+_  ____  __  _____   ___  __ ____  ______
+ --/ __ \/ / / / _ | / _ \/ //_/ / / / __/
+ -/ /_/ / /_/ / __ |/ , _/ ,< / /_/ /\ \
+--\___\_\____/_/ |_/_/|_/_/|_|\____/___/
+2021-11-10 16:37:37,618 INFO  [org.apa.kaf.com.sec.aut.AbstractLogin] (main) Successfully logged in.
+2021-11-10 16:37:37,780 INFO  [io.sma.rea.mes.kafka] (main) SRMSG18258: Kafka producer kafka-producer-songs, connected to Kafka brokers 'bernard-c---pv-dartaq-c---ba.bf2.kafka.rhcloud.com:443', is configured to write records to 'songs-catalog'
+2021-11-10 16:37:37,971 INFO  [io.quarkus] (main) song-app 1.0.0-SNAPSHOT on JVM (powered by Quarkus 2.4.1.Final) started in 1.522s. Listening on: http://0.0.0.0:8080
+2021-11-10 16:37:37,971 INFO  [io.quarkus] (main) Profile prod activated.
+2021-11-10 16:37:37,972 INFO  [io.quarkus] (main) Installed features: [cdi, kafka-client, kubernetes, resteasy, resteasy-jsonb, smallrye-context-propagation, smallrye-health, smallrye-reactive-messaging, smallrye-reactive-messaging-kafka, vertx]
+----
+--
+====
+
+[#consumer-java]
+== Consuming messages with Java
+
+The consumer code is at {github-repo}/{apps-folder}/song-indexer-app/quarkus/song-indexer-app[Song Indexer App, window=_blank].
+
+[#deploying-consumer]
+=== Deploying Consumer
+
+In this case, the Quarkus service to consume songs is deployed.
+You've got two options, using Docker or building the service yourself.
+In terminal 2, run one of these two options:
+
+[tabs]
+====
+Build & Run::
++
+--
+[.console-input]
+[source, bash-shell,subs="+macros,+attributes"]
+----
+source $TUTORIAL_HOME/apps/env
+cd $TUTORIAL_HOME/apps/song-indexer-app/quarkus/song-indexer-app
+./mvnw clean package -DskipTests
+----
+
+[.console-input]
+[source, bash-shell,subs="+macros,+attributes"]
+----
+docker build -t quay.io/cloudservicestmm/kafka-tutorial-song-indexer-app:quarkus -f src/main/docker/Dockerfile.jvm .
+----
+
+[.console-input]
+[source, bash-shell,subs="+macros,+attributes"]
+----
+docker run --rm -ti -p 9090:8080 -e BOOTSTRAP_SERVER=$BOOTSTRAP_SERVER -e CLIENT_ID=$CLIENT_ID -e CLIENT_SECRET=$CLIENT_SECRET quay.io/cloudservicestmm/kafka-tutorial-song-indexer-app:quarkus
+----
+
+[.console-output]
+[source, bash-shell,subs="+macros,+attributes"]
+----
+__  ____  __  _____   ___  __ ____  ______ 
+ --/ __ \/ / / / _ | / _ \/ //_/ / / / __/ 
+ -/ /_/ / /_/ / __ |/ , _/ ,< / /_/ /\ \   
+--\___\_\____/_/ |_/_/|_/_/|_|\____/___/   
+2021-11-10 17:35:00,733 INFO  [io.sma.rea.mes.kafka] (main) SRMSG18229: Configured topics for channel 'songs': [songs-catalog]
+2021-11-10 17:35:00,965 INFO  [org.apa.kaf.com.sec.aut.AbstractLogin] (main) Successfully logged in.
+2021-11-10 17:35:01,218 INFO  [io.quarkus] (main) song-indexer-app 1.0.0-SNAPSHOT on JVM (powered by Quarkus 2.4.1.Final) started in 1.358s. Listening on: http://0.0.0.0:8080
+2021-11-10 17:35:01,219 INFO  [io.quarkus] (main) Profile prod activated. 
+2021-11-10 17:35:01,219 INFO  [io.quarkus] (main) Installed features: [cdi, kafka-client, kubernetes, resteasy, resteasy-jsonb, resteasy-mutiny, smallrye-context-propagation, smallrye-health, smallrye-reactive-messaging, smallrye-reactive-messaging-kafka, vertx]
+----
+--
+Docker::
++
+--
+[.console-input]
+[source, bash-shell,subs="+macros,+attributes"]
+----
+docker run --rm -ti -p 9090:8080 -e BOOTSTRAP_SERVER=$BOOTSTRAP_SERVER -e CLIENT_ID=$CLIENT_ID -e CLIENT_SECRET=$CLIENT_SECRET quay.io/cloudservicestmm/kafka-tutorial-song-indexer-app:quarkus
+----
+
+[.console-output]
+[source, bash-shell,subs="+macros,+attributes"]
+----
+__  ____  __  _____   ___  __ ____  ______ 
+ --/ __ \/ / / / _ | / _ \/ //_/ / / / __/ 
+ -/ /_/ / /_/ / __ |/ , _/ ,< / /_/ /\ \   
+--\___\_\____/_/ |_/_/|_/_/|_|\____/___/   
+2021-11-10 17:35:00,733 INFO  [io.sma.rea.mes.kafka] (main) SRMSG18229: Configured topics for channel 'songs': [songs-catalog]
+2021-11-10 17:35:00,965 INFO  [org.apa.kaf.com.sec.aut.AbstractLogin] (main) Successfully logged in.
+2021-11-10 17:35:01,218 INFO  [io.quarkus] (main) song-indexer-app 1.0.0-SNAPSHOT on JVM (powered by Quarkus 2.4.1.Final) started in 1.358s. Listening on: http://0.0.0.0:8080
+2021-11-10 17:35:01,219 INFO  [io.quarkus] (main) Profile prod activated. 
+2021-11-10 17:35:01,219 INFO  [io.quarkus] (main) Installed features: [cdi, kafka-client, kubernetes, resteasy, resteasy-jsonb, resteasy-mutiny, smallrye-context-propagation, smallrye-health, smallrye-reactive-messaging, smallrye-reactive-messaging-kafka, vertx]
+----
+--
+====
+
+[#produce-consume-songs]
+=== Produce and Consume Songs
+
+Song Indexer Service is exposing using Server-Side Events, the songs that are published to the `songs-catalog` topic.
+In the terminal 3, run the following command to start listening for the events:
+
+[.console-input]
+[source, bash-shell,subs="+macros,+attributes"]
+----
+http GET localhost:9090/events --stream --timeout=600
+----
+
+Song Service exposes an endpoint to publish songs into the `songs-catalog` topic.
+In the terminal 4, run the following command to publish a song:
+
+[.console-input]
+[source, bash-shell,subs="+macros,+attributes"]
+----
+http POST localhost:8080/songs id=1000 name=Portals author='Alan Silvestri'
+----
+
+[.console-ouput]
+[source, bash-shell,subs="+macros,+attributes"]
+----
+HTTP/1.1 201 Created
+content-length: 0
+----
+
+To verify that the song has been processed, check terminal 2 (`song indexer service`) for the next logline:
+
+[.console-output]
+[source, bash-shell,subs="+macros,+attributes"]
+----
+Song {"author":"Alan Silvestri","id":1000,"name":"Portals","op":"ADD"} indexed
+----
+
+And in the termianl 3, you should see that en event has been streamed:
+
+[.console-output]
+[source, bash-shell,subs="+macros,+attributes"]
+----
+data: {
+    kafka-tutorial/kafka-tutorial-rhosak [main L|✚ 2…6⚑ 1] 
+    "author": "Alan Silvestri",
+    "id": 1000,
+    "name": "Portals",
+    "op": "ADD"
+} 
+----
+
+[#java-cleanup]
+== Clean Up
+
+Stop the processes that are running in the terminal 1,2 and 3 by typing kbd:[Ctrl + C].
