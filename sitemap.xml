@@ -2,18 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>https://redhat-cloud-services-tmm.github.io/kafka-tutorial/kafka-tutorial/1.0.x/01-setup.html</loc>
-<lastmod>2021-11-11T10:21:26.035Z</lastmod>
+<lastmod>2021-11-11T14:17:35.937Z</lastmod>
 </url>
 <url>
 <loc>https://redhat-cloud-services-tmm.github.io/kafka-tutorial/kafka-tutorial/1.0.x/02-topics-partitions.html</loc>
-<lastmod>2021-11-11T10:21:26.035Z</lastmod>
+<lastmod>2021-11-11T14:17:35.937Z</lastmod>
 </url>
 <url>
 <loc>https://redhat-cloud-services-tmm.github.io/kafka-tutorial/kafka-tutorial/1.0.x/03-consumers-producers.html</loc>
-<lastmod>2021-11-11T10:21:26.035Z</lastmod>
+<lastmod>2021-11-11T14:17:35.937Z</lastmod>
+</url>
+<url>
+<loc>https://redhat-cloud-services-tmm.github.io/kafka-tutorial/kafka-tutorial/1.0.x/04-java-consumer-producer.html</loc>
+<lastmod>2021-11-11T14:17:35.937Z</lastmod>
 </url>
 <url>
 <loc>https://redhat-cloud-services-tmm.github.io/kafka-tutorial/kafka-tutorial/1.0.x/index.html</loc>
-<lastmod>2021-11-11T10:21:26.035Z</lastmod>
+<lastmod>2021-11-11T14:17:35.937Z</lastmod>
 </url>
 </urlset>
